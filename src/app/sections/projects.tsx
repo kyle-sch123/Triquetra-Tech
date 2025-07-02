@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Placeholderimage1 from "@/app/assets/images/placeholder.jpg";
 import t1 from "@/app/assets/images/TT Work 1.png";
 import t2 from "@/app/assets/images/TT Work 2.png";
 import t3 from "@/app/assets/images/TT Work 3.png";
@@ -50,7 +49,7 @@ const FlipNumber = ({
   useEffect(() => {
     if (isVisible && !hasAnimated) {
       setHasAnimated(true);
-      const duration = 6000; // 2 seconds animation
+
       const steps = 40; // Reduced number of steps for better performance
       const increment = value / steps;
       let current = 0;
@@ -233,7 +232,7 @@ const Projects = () => {
           </h1>
           <div className="max-w-5xl mx-auto">
             <p className="font-roboto text-gray-200/90 text-[14px] md:text-[16px] lg:text-[17px] tracking-wider">
-              At Triquetra Tech, we've successfully designed and delivered
+              At Triquetra Tech, we&apos;ve successfully designed and delivered
               industry-relevant e-learning solutions focused on real-world
               impact. From PPE Compliance and Management of Change to
               Communication Skills and Induction Training, our featured projects
@@ -319,13 +318,14 @@ const Projects = () => {
                   </div>
 
                   <p className="text-white leading-relaxed">
-                    At Triquetra Tech, we've successfully designed and delivered
-                    industry-relevant e-learning solutions focused on real-world
-                    impact. From PPE Compliance and Management of Change to
-                    Communication Skills and Induction Training, our featured
-                    projects empower organizations to stay safe, informed, and
-                    future-ready. Each course is crafted with purpose — helping
-                    teams learn better, faster, and with lasting results.
+                    At Triquetra Tech, we&apos;ve successfully designed and
+                    delivered industry-relevant e-learning solutions focused on
+                    real-world impact. From PPE Compliance and Management of
+                    Change to Communication Skills and Induction Training, our
+                    featured projects empower organizations to stay safe,
+                    informed, and future-ready. Each course is crafted with
+                    purpose — helping teams learn better, faster, and with
+                    lasting results.
                   </p>
                 </div>
               </div>
@@ -362,8 +362,8 @@ const Projects = () => {
                     </div>
 
                     <p className="text-white leading-relaxed">
-                      In today's dynamic environments, change is inevitable —
-                      but managing it effectively is essential. This module
+                      In today&apos;s dynamic environments, change is inevitable
+                      — but managing it effectively is essential. This module
                       equips teams with tools and strategies to plan,
                       communicate, and implement changes safely and efficiently,
                       reducing operational risks and ensuring smooth

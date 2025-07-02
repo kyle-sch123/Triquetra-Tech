@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PlaceholderImage from "@/app/assets/images/placeholder.jpg";
 import PlaceholderImage2 from "@/app/assets/images/istockphoto-1197547448-1024x1024.jpg";
 import Mission from "@/app/assets/images/mission (1).jpg";
@@ -23,8 +23,9 @@ const AboutUs = () => {
             About Us
           </h1>
           <p className="text-gray-300 text-lg md:text-xl font-roboto leading-relaxed max-w-3xl mx-auto mb-8">
-            Triquetra Tech's company and culture are a lot like our product.
-            They're crafted, not cobbled, for a delightful experience.
+            Triquetra Tech&apos;s company and culture are a lot like our
+            product. They&apos;re crafted, not cobbled, for a delightful
+            experience.
           </p>
         </div>
         {/*Mission*/}
@@ -167,14 +168,14 @@ const AboutUs = () => {
         >
           <div className="text-left">
             <h1 className="font-roboto-mono font-bold text-[25px] mb-2 mt-5">
-              Why "Triquetra"?
+              Why &quot;Triquetra&quot;?
             </h1>
             <p className="font-roboto text-gray-200/90 text-[16px] tracking-wider">
               The name Triquetra, derived from an ancient symbol meaning
-              "threefold," reflects our commitment to balance and unity: Enable.
-              Empower. Elevate. We believe the intersection of people, process,
-              and technology creates long-term success — and we're here to build
-              that future with our clients.
+              &quot;threefold,&quot; reflects our commitment to balance and
+              unity: Enable. Empower. Elevate. We believe the intersection of
+              people, process, and technology creates long-term success — and
+              we&apos;re here to build that future with our clients.
             </p>
           </div>
         </motion.div>

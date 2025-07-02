@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Logo from "@/app/assets/images/TriquetraTech_Logo_no_text_-removebg-preview.png";
 import Logo2 from "@/app/assets/images/Untitled_design-removebg-preview.png";
 import React, { useState } from "react";
 

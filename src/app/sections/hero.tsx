@@ -1,6 +1,3 @@
-import GrainImage from "@/app/assets/images/grain.jpg";
-import ArrowUpRightIcon from "@/app/assets/icons/arrow-up-right.svg";
-
 export const Hero = () => {
   return (
     <section
@@ -58,7 +55,7 @@ export const Hero = () => {
         {/* Sub Heading */}
         <p className="text-white/58 text-lg lg:text-xl leading-relaxed mt-10 mb-12 max-w-3xl mx-auto font-roboto tracking-wide  lg:max-w-150 text-center">
           In an era defined by rapid change and evolving skill demands,
-          effective training is more than a checkbox—it's the foundation of
+          effective training is more than a checkbox—it&apos;s the foundation of
           organizational excellence.
         </p>
 
@@ -69,7 +66,7 @@ export const Hero = () => {
               href="mailto:gavin@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi Gavin,%0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards"
               className="text-white text-lg md:text-xl underline decoration-0 underline-offset-4 hover:text-gray-300 transition-colors duration-200 tracking-wider font-extralight"
             >
-              Let's Connect
+              Let&apos;s Connect
             </a>
           </div>
 

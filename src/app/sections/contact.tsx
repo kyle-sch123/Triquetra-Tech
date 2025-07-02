@@ -1,4 +1,3 @@
-import ArrowUpRightIcon from "@/assets/icons/arrow-up-right.svg";
 import GrainImage from "@/app/assets/images/grain.jpg";
 import Image from "next/image";
 

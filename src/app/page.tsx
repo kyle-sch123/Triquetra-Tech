@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Headers } from "./sections/header";
 import { Hero } from "./sections/hero";
 import AboutUs from "./sections/about";
