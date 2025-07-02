@@ -281,7 +281,7 @@ const Projects = () => {
           <motion.div
             id="project1"
             className="max-w-6xl mx-auto mt-15"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 55 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
             viewport={{ once: true, amount: 0.1 }}
@@ -334,7 +334,7 @@ const Projects = () => {
             <motion.div
               id="project2"
               className="max-w-6xl mx-auto mt-15"
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
               viewport={{ once: true, amount: 0.1 }}
@@ -383,7 +383,7 @@ const Projects = () => {
               <motion.div
                 id="project3"
                 className="max-w-6xl mx-auto mt-15"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 45 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
                 viewport={{ once: true, amount: 0.1 }}

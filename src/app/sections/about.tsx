@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import PlaceholderImage from "@/app/assets/images/placeholder.jpg";
 import PlaceholderImage2 from "@/app/assets/images/istockphoto-1197547448-1024x1024.jpg";
+import Mission from "@/app/assets/images/mission (1).jpg";
 import { motion } from "framer-motion";
 
 const AboutUs = () => {
@@ -36,10 +37,10 @@ const AboutUs = () => {
           <div className="max-w mx-auto ">
             <div className="grid md:grid-cols-2 gap-5 items-center">
               {/* Image */}
-              <div className="relative rounded-xl overflow-hidden">
-                <div className="w-auto h-80 rounded-lg shadow-2xl flex items-center justify-center ">
+              <div className="relative rounded-2xl overflow-hidden">
+                <div className="w-auto h-100 rounded-lg shadow-2xl flex items-center justify-center ">
                   <Image
-                    src={PlaceholderImage}
+                    src={Mission}
                     alt="suck my nuts"
                     layout="fill"
                     className="object-cover"
@@ -69,7 +70,7 @@ const AboutUs = () => {
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="max-w mx-auto pl-5">
+          <div className="max-w mx-auto">
             <div className="grid md:grid-cols-2 gap-5 items-center">
               {/* Text Content */}
               <div className="flex flex-col justify-center">
@@ -94,7 +95,7 @@ const AboutUs = () => {
               </div>
               {/* Image */}
               <div className="relative rounded-xl overflow-hidden">
-                <div className="w-auto h-85 shadow-2xl flex items-center justify-center">
+                <div className="w-auto h-100 shadow-2xl flex items-center justify-center">
                   <Image
                     src={PlaceholderImage2}
                     alt="suck my nuts"

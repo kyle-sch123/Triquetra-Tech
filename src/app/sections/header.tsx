@@ -1,8 +1,11 @@
+"use client";
 import Image from "next/image";
 import Logo from "@/app/assets/images/TriquetraTech_Logo_no_text_-removebg-preview.png";
 import Logo2 from "@/app/assets/images/Untitled_design-removebg-preview.png";
+import React, { useState } from "react";
 
 export const Headers = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <nav className="fixed top-0 left-0 right-0 bg-transparent z-10 backdrop-blur-xs mt-0 pt-2.5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,12 +46,12 @@ export const Headers = () => {
             </a>
           </div>
 
-          {/* Third div - Contact Button */}
-          <div className="flex items-center">
+          {/* Third div - Contact Button (hidden on small screens) */}
+          <div className="hidden md:flex items-center">
             <a href="mailto:gavin@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi Gavin,%0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards">
               <div className="bg-[#1111] border border-white px-5 py-2 inline-flex items-center gap-4 rounded-sm">
                 <div className="bg-white size-2.5 rounded-full relative">
-                  <div className="bg-white absolute inset-0 rounded-full animate-ping"></div>
+                  <div className="bg-green-200 absolute inset-0 rounded-full animate-ping"></div>
                 </div>
                 <div className="text-[15px] font-instrument tracking-widest">
                   CONTACT
@@ -59,7 +62,11 @@ export const Headers = () => {
 
           {/* Mobile menu button - only visible on small screens */}
           <div className="md:hidden">
-            <button className="text-white p-2">
+            <button
+              className="text-white p-2"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label="Open mobile menu"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -74,6 +81,46 @@ export const Headers = () => {
                 />
               </svg>
             </button>
+            {/* Mobile menu dropdown */}
+            {mobileMenuOpen && (
+              <div className="absolute right-4 top-16 bg-[#181818] border border-white/10 rounded-lg shadow-lg py-4 px-6 flex flex-col items-end space-y-4 z-50 min-w-[180px]">
+                <a
+                  href="#home"
+                  className="text-white/90 hover:text-white transition-colors duration-200 text-[16px] tracking-widest font-mono"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  HOME
+                </a>
+                <a
+                  href="#about-us"
+                  className="text-white/90 hover:text-white transition-colors duration-200 text-[16px] tracking-widest font-mono"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  ABOUT
+                </a>
+                <a
+                  href="#projects"
+                  className="text-white/90 hover:text-white transition-colors duration-200 text-[16px] tracking-widest font-mono"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  PROJECTS
+                </a>
+                <a
+                  href="mailto:gavin@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi Gavin,%0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards"
+                  className="w-full"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <div className="bg-[#1111] border border-white px-5 py-2 inline-flex items-center gap-4 rounded-sm w-full">
+                    <div className="bg-white size-2.5 rounded-full relative">
+                      <div className="bg-white absolute inset-0 rounded-full animate-ping"></div>
+                    </div>
+                    <div className="text-[15px] font-instrument tracking-widest">
+                      CONTACT
+                    </div>
+                  </div>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
