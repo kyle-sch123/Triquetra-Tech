@@ -1,6 +1,10 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import LightbulbImage from "@/app/assets/images/lightbulb-removed-bubbles.png";
+import Image from "next/image";
+import ClipboardImage from "@/app/assets/images/clipboard.png";
+import AnalysisIcon from "@/app/assets/icons/noun-magnifying-glass-3803465.svg";
 
 const DevelopmentProcess = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -21,7 +25,7 @@ const DevelopmentProcess = () => {
       subtitle: "Planning",
       description:
         "Our instructional designers create detailed learning pathways, interactive scenarios, and assessment strategies. We develop storyboards and prototypes that align with your brand identity while ensuring optimal user experience and engagement.",
-      icon: "🎨",
+      icon: "📐",
       color: "from-orange-400 to-orange-600",
     },
     {
@@ -45,7 +49,7 @@ const DevelopmentProcess = () => {
       subtitle: "Review",
       description:
         "Through detailed analytics and feedback collection, we measure learning effectiveness and identify areas for improvement. Our ongoing evaluation ensures your training programs continue to deliver measurable results and stay current with industry standards.",
-      icon: "📊",
+      icon: "📋",
       color: "from-yellow-400 to-yellow-600",
     },
   ];
@@ -113,89 +117,37 @@ const DevelopmentProcess = () => {
           {/* Lightbulb Visualization */}
           <div className="flex justify-center">
             <div className="relative">
-              {/* Lightbulb SVG */}
-              <div className="relative w-80 h-80">
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                  {/* Lightbulb outline */}
-                  <path
-                    d="M100 20 C120 20, 140 40, 140 70 C140 85, 135 95, 130 105 L130 120 L70 120 L70 105 C65 95, 60 85, 60 70 C60 40, 80 20, 100 20 Z"
-                    fill="none"
-                    stroke="#374151"
-                    strokeWidth="3"
+              {/* Lightbulb Image Container */}
+              <div className="relative w-100 h-100 flex items-center justify-center">
+                {/* Lightbulb Image */}
+                <div className="relative">
+                  <Image
+                    src={LightbulbImage}
+                    alt="Lightbulb"
+                    className="w-100 h-100 object-contain transition-all duration-1000"
                   />
 
-                  {/* Lightbulb base */}
-                  <rect
-                    x="70"
-                    y="120"
-                    width="60"
-                    height="15"
-                    fill="#374151"
-                    rx="2"
+                  {/* Glowing overlay effect */}
+                  <div
+                    className="absolute inset-0 transition-all duration-1000 pointer-events-none"
+                    style={{
+                      background: `radial-gradient(circle, rgba(251, 191, 36, ${
+                        lightbulbBrightness / 150
+                      }) 30%, rgba(255, 255, 255, ${
+                        lightbulbBrightness / 300
+                      }) 50%, transparent 70%)`,
+                      filter: `blur(${lightbulbBrightness / 20}px)`,
+                      mixBlendMode: "screen",
+                    }}
                   />
-                  <rect
-                    x="75"
-                    y="135"
-                    width="50"
-                    height="8"
-                    fill="#374151"
-                    rx="1"
-                  />
-                  <rect
-                    x="80"
-                    y="143"
-                    width="40"
-                    height="8"
-                    fill="#374151"
-                    rx="1"
-                  />
-
-                  {/* Glowing fill */}
-                  <path
-                    d="M100 20 C120 20, 140 40, 140 70 C140 85, 135 95, 130 105 L130 120 L70 120 L70 105 C65 95, 60 85, 60 70 C60 40, 80 20, 100 20 Z"
-                    fill={`rgba(251, 191, 36, ${lightbulbBrightness / 100})`}
-                    className="transition-all duration-1000"
-                  />
-
-                  {/* Inner glow */}
-                  <circle
-                    cx="100"
-                    cy="70"
-                    r="25"
-                    fill={`rgba(255, 255, 255, ${lightbulbBrightness / 200})`}
-                    className="transition-all duration-1000"
-                  />
-
-                  {/* Filament lines */}
-                  <g
-                    stroke="#fbbf24"
-                    strokeWidth="2"
-                    opacity={lightbulbBrightness / 100}
-                    className="transition-all duration-1000"
-                  >
-                    <path d="M85 60 Q100 65 115 60" fill="none" />
-                    <path d="M85 70 Q100 75 115 70" fill="none" />
-                    <path d="M85 80 Q100 85 115 80" fill="none" />
-                  </g>
-                </svg>
-
-                {/* Outer glow effect */}
-                <div
-                  className="absolute inset-0 rounded-full transition-all duration-1000"
-                  style={{
-                    background: `radial-gradient(circle, rgba(251, 191, 36, ${
-                      lightbulbBrightness / 400
-                    }) 0%, transparent 70%)`,
-                    filter: `blur(${lightbulbBrightness / 10}px)`,
-                  }}
-                />
+                </div>
               </div>
 
               {/* Progress indicators around lightbulb */}
               <div className="absolute inset-0">
                 {steps.map((step, index) => {
                   const angle = index * 72 - 90; // 360/5 = 72 degrees apart, -90 to start at top
-                  const radius = 160;
+                  const radius = 150;
                   const x = Math.cos((angle * Math.PI) / 180) * radius;
                   const y = Math.sin((angle * Math.PI) / 180) * radius;
 
@@ -287,6 +239,17 @@ const DevelopmentProcess = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </motion.div>
   );
 };
