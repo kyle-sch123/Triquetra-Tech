@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import "@fontsource/inika/index.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import "@fontsource/instrument-sans/index.css";
+
+
+
+@layer utilities {
+  .container {
+    @apply lg:max-w-5xl;
+  }
+}
+
+@theme {
+  --font-roboto: "Roboto", sans-serif; 
+  --font-roboto-mono : "Roboto-mono", sans-serif;
+}
+
+@keyframes subtleWave {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07) ;
+  }
+}
+
+.wave-animate {
+  animation: subtleWave 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
