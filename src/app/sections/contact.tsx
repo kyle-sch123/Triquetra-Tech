@@ -70,7 +70,7 @@ ${formData.message}
   return (
     <section className="py-16 lg:py-24 px-6 md:px-12 lg:px-24" id="contact">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-[#111111] text-gray-900 py-8 px-8 md:py-10 md:px-12 rounded-md border-2 border-white relative overflow-hidden">
+        <div className="bg-[#111111] text-gray-900 py-8 px-8 md:py-10 md:px-12 relative overflow-hidden">
           {/* Grain texture background */}
           <div className="absolute inset-0 opacity-5 -z-10">
             <Image src={GrainImage} alt="" layout="fill" objectFit="cover" />
