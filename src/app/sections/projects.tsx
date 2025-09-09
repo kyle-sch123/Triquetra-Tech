@@ -7,6 +7,8 @@ import t3 from "@/app/assets/images/TT Work 3.png";
 import t4 from "@/app/assets/images/TT Work 4.png";
 import t5 from "@/app/assets/images/TT Work 5.png";
 import t6 from "@/app/assets/images/TT Work 6.png";
+import t7 from "@/app/assets/images/TT Work 7.png";
+import t8 from "@/app/assets/images/TT Work 8.png";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -189,7 +191,9 @@ const Projects = () => {
 
   // Define image arrays for each project
   const project1Images = [t1, t2];
-  const project2Images = [t3, t6];
+  const project2Images = [t3, t4];
+  const project3Images = [t5, t6];
+  const project4Images = [t7, t8];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -391,8 +395,8 @@ const Projects = () => {
                 <div className="rounded-lg overflow-hidden shadow-xl">
                   <div className="flex flex-col md:flex-row">
                     <div className="w-full md:w-1/2">
-                      <Image
-                        src={t4}
+                      <ImageSlideshow
+                        images={project3Images}
                         alt="Communication Skills Training"
                         className="w-full h-64 md:h-full object-cover"
                       />
@@ -478,8 +482,8 @@ const Projects = () => {
                         </p>
                       </div>
                       <div className="w-full md:w-1/2">
-                        <Image
-                          src={t5}
+                        <ImageSlideshow
+                          images={project4Images}
                           alt="Induction Training"
                           className="w-full h-64 md:h-full object-cover "
                         />

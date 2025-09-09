@@ -63,7 +63,7 @@ export const Hero = () => {
         <div className="flex flex-col items-center space-y-4">
           <div>
             <a
-              href="mailto:gavin@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi Gavin,%0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards"
+              href="mailto:learning@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi, %0D%0A%0D%0AI'd love to discuss a potential project with you. Please contact me at: [your phone number]%0D%0A%0D%0ABest regards"
               className="text-white text-lg md:text-xl underline decoration-0 underline-offset-4 hover:text-gray-300 transition-colors duration-200 tracking-wider font-extralight"
             >
               Let&apos;s Connect
@@ -72,7 +72,7 @@ export const Hero = () => {
 
           <div>
             <a
-              href="#business"
+              href="#projects"
               className="text-white text-lg md:text-xl underline decoration-0 underline-offset-3 hover:text-gray-300 transition-colors duration-200 tracking-wider font-extralight"
             >
               Explore Our Business

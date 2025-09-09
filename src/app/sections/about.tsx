@@ -3,8 +3,8 @@
 import Image from "next/image";
 import React from "react";
 import PlaceholderImage from "@/app/assets/images/placeholder.jpg";
-import PlaceholderImage2 from "@/app/assets/images/istockphoto-1197547448-1024x1024.jpg";
-import Mission from "@/app/assets/images/mission (1).jpg";
+import PlaceholderImage2 from "@/app/assets/images/Our Story.jpg";
+import Mission from "@/app/assets/images/mission.jpg";
 import { motion } from "framer-motion";
 
 const AboutUs = () => {
@@ -42,7 +42,7 @@ const AboutUs = () => {
                 <div className="w-auto h-100 rounded-lg shadow-2xl flex items-center justify-center ">
                   <Image
                     src={Mission}
-                    alt="suck my nuts"
+                    alt="Our Mission"
                     layout="fill"
                     className="object-cover"
                   />

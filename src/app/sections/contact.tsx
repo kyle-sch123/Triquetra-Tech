@@ -42,7 +42,7 @@ Message:
 ${formData.message}
       `.trim();
 
-      const mailtoLink = `mailto:gavin@triquetratech.co.za?subject=${encodeURIComponent(
+      const mailtoLink = `mailto:kyleschaffner39@gmail.com?subject=${encodeURIComponent(
         formData.subject || "Contact Form Inquiry"
       )}&body=${encodeURIComponent(emailBody)}`;
 
@@ -233,10 +233,10 @@ ${formData.message}
               </h3>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
-                  href="mailto:gavin@triquetratech.co.za"
+                  href="mailto:learning@triquetratech.co.za"
                   className="text-white/80 hover:text-white transition-colors underline"
                 >
-                  gavin@triquetratech.co.za
+                  learning@triquetratech.co.za
                 </a>
                 <span className="hidden sm:block text-white/60">•</span>
                 <span className="text-white/80">
