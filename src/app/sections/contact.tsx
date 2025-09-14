@@ -259,7 +259,7 @@ import Image from "next/image";
 
 export const ContactSection = () => {
   return (
-    <section className="py-16 lg:py-24 px-6 md:px-12 lg:px-24" id="contact">
+    <section className="py-10 lg:py-14 px-6 md:px-10 lg:px-15" id="contact">
       <div className="max-w-7xl mx-auto">
         <div className="text-gray-900 py-12 px-8 md:py-16 md:px-12 relative overflow-hidden rounded-xl">
           {/* Header */}
