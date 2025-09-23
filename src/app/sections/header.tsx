@@ -47,7 +47,8 @@ export const Headers = () => {
 
           {/* Third div - Contact Button (hidden on small screens) */}
           <div className="hidden md:flex items-center">
-            <a href="mailto:learning@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi, %0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards">
+            {/* <a href="mailto:learning@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi, %0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards"> */}
+            <a href="#contact">
               <div className="bg-[#1111] border border-white px-5 py-2 inline-flex items-center gap-4 rounded-sm">
                 <div className="bg-white size-2.5 rounded-full relative">
                   <div className="bg-green-200 absolute inset-0 rounded-full animate-ping"></div>
