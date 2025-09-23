@@ -56,7 +56,7 @@ export const ContactSection = () => {
     setStatus({ type: "loading", message: "Sending your message..." });
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/contact/route.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
