@@ -34,7 +34,7 @@ export const ContactSection = () => {
     if (status.type === "success" || status.type === "error") {
       const timer = setTimeout(() => {
         setStatus({ type: "idle", message: "" });
-      }, 6500);
+      }, 6000);
 
       return () => clearTimeout(timer);
     }
