@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Logo2 from "@/app/assets/images/Untitled_design-removebg-preview.png";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export const Headers = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,11 +13,13 @@ export const Headers = () => {
           {/* First div - Logo and Business Name */}
           <div className="flex-col items-center">
             <div className="flex flex-col items-center">
-              <Image
-                src={Logo2}
-                alt="Triquetra Technology's Logo"
-                className="w-13 h-auto rounded-lg brightness-105 contrast-0"
-              />
+              <Link href="/">
+                <Image
+                  src={Logo2}
+                  alt="Triquetra Technology's Logo"
+                  className="w-13 h-auto rounded-lg brightness-105 contrast-0"
+                />
+              </Link>
               <p className=" mt-0.5  text-[10px] text-center font- bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent font-mono tracking-wide ">
                 Triquetra Technologies
               </p>
@@ -48,7 +51,7 @@ export const Headers = () => {
           {/* Third div - Contact Button (hidden on small screens) */}
           <div className="hidden md:flex items-center">
             {/* <a href="mailto:learning@triquetratech.co.za?subject=Let's Connect - Project Inquiry&body=Hi, %0D%0A%0D%0AI'd love to discuss a potential project with you.%0D%0A%0D%0ABest regards"> */}
-            <a href="#contact">
+            <a href="/#contact">
               <div className="bg-[#1111] border border-white px-5 py-2 inline-flex items-center gap-4 rounded-sm">
                 <div className="bg-white size-2.5 rounded-full relative">
                   <div className="bg-green-200 absolute inset-0 rounded-full animate-ping"></div>

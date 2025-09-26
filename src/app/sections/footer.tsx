@@ -1,5 +1,6 @@
 import ArrowUpRight from "@/app/assets/icons/arrow-up-right.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const footerLinks = [
   {
@@ -17,15 +18,14 @@ const footerLinks = [
 ];
 
 const companyLinks = [
-  { title: "About", href: "#" },
-  { title: "Projects", href: "#projects" },
-  { title: "Contact", href: "#contact" },
+  { title: "About", href: "/#about-us" },
+  { title: "Projects", href: "/#projects" },
+  { title: "Contact", href: "/#contact" },
 ];
 
 const legalLinks = [
-  { title: "Privacy Policy", href: "#" },
-  { title: "Terms of Service", href: "#" },
-  { title: "Cookies", href: "#" },
+  { title: "Privacy Policy", href: "/privacy" },
+  { title: "Terms of Service", href: "/terms" },
 ];
 
 export const Footer = () => {
@@ -34,7 +34,7 @@ export const Footer = () => {
       {/* Gradient background effect */}
       <div className="absolute h-[400px] w-[1600px] bottom-0 left-1/2 -translate-x-1/2 bg-emerald-300/30 [mask-image:radial-gradient(50%_50%_at_bottom_center,black,transparent)] -z-10"></div>
 
-      <div className="container relative mx-auto px-6 md:px-12 lg:px-24 py-16">
+      <div className="container relative mx-auto px-6 md:px-12 lg:px-24 py-16 text-center md:text-left">
         {/* Main footer content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Company info */}
@@ -54,12 +54,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.title}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-white/60 hover:text-green-400 transition-colors"
                   >
                     {link.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -73,38 +73,33 @@ export const Footer = () => {
             <ul className="space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.title}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-white/60 hover:text-green-400 transition-colors"
                   >
                     {link.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Social links */}
-          <div className="space-y-4">
+          <div className="space-y-4 text-center md:text-left">
             <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wider">
               Connect
             </h4>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap flex-col gap-2 justify-center items-center text-center md:items-start md:text-left  md:justify-start">
               {footerLinks.map((link) => (
-                <a
+                <Link
                   href={link.href}
                   key={link.title}
                   className="inline-flex items-center gap-1.5 group"
                 >
-                  <span className="font-medium text-white/80 group-hover:text-green-400 transition-colors">
+                  <span className="text-white/60 hover:text-green-400 transition-colors">
                     {link.title}
                   </span>
-                  <Image
-                    src={ArrowUpRight}
-                    alt=""
-                    className="w-3 h-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
-                  />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
