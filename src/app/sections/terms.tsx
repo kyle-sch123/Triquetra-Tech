@@ -431,10 +431,6 @@ You may not copy, modify, distribute, or create derivative works without express
               </div>
             </div>
           </div>
-
-          {/* Decorative Elements */}
-          <div className="absolute top-20 right-20 w-32 h-32 bg-green-400/5 rounded-full blur-xl"></div>
-          <div className="absolute bottom-20 left-20 w-40 h-40 bg-blue-500/5 rounded-full blur-xl"></div>
         </div>
       </div>
     </section>

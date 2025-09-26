@@ -28,24 +28,24 @@ export const Headers = () => {
 
           {/* Second div - Navigation Links (centered) */}
           <div className="hidden md:flex items-center space-x-7">
-            <a
-              href="#home"
+            <Link
+              href="/#home"
               className="text-white/90 hover:text-white transition-colors duration-200 text-[17px] tracking-widest font-mono"
             >
               HOME
-            </a>
-            <a
-              href="#about-us"
+            </Link>
+            <Link
+              href="/#about-us"
               className="text-white/90 hover:text-white transition-colors duration-200 text-[17px] tracking-widest font-mono"
             >
               ABOUT
-            </a>
-            <a
-              href="#projects"
+            </Link>
+            <Link
+              href="/#projects"
               className="text-white/90 hover:text-white transition-colors duration-200 text-[17px] tracking-widest font-mono"
             >
               PROJECTS
-            </a>
+            </Link>
           </div>
 
           {/* Third div - Contact Button (hidden on small screens) */}
