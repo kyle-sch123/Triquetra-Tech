@@ -1,256 +1,472 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import LightbulbImage from "@/app/assets/images/lightbulb-removed-bubbles.png";
-import Image from "next/image";
-import ClipboardImage from "@/app/assets/images/clipboard.png";
-import AnalysisIcon from "@/app/assets/icons/noun-magnifying-glass-3803465.svg";
+import {
+  ScanSearch,
+  PencilRuler,
+  Code2,
+  Rocket,
+  LineChart,
+  ArrowLeft,
+  ArrowRight,
+  Pause,
+  Play,
+  type LucideIcon,
+} from "lucide-react";
+
+type Step = {
+  num: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  outputs: string[];
+  Icon: LucideIcon;
+};
+
+const steps: Step[] = [
+  {
+    num: "01",
+    title: "Analysis",
+    subtitle: "Exploration",
+    description:
+      "We begin by thoroughly understanding your organization's learning needs, compliance requirements, and target audience. Stakeholder interviews and a structured needs assessment ensure every module addresses a real-world challenge.",
+    outputs: [
+      "Stakeholder interviews",
+      "Needs assessment",
+      "Audience profile",
+    ],
+    Icon: ScanSearch,
+  },
+  {
+    num: "02",
+    title: "Design",
+    subtitle: "Planning",
+    description:
+      "Instructional designers craft detailed learning pathways, interactive scenarios, and assessment strategies. Storyboards and prototypes align with your brand identity while protecting pedagogical clarity and engagement.",
+    outputs: ["Storyboards", "Learning pathways", "Prototypes"],
+    Icon: PencilRuler,
+  },
+  {
+    num: "03",
+    title: "Develop",
+    subtitle: "Create",
+    description:
+      "Using modern e-learning technologies, we build interactive modules with multimedia, simulations, and gamification. Cross-platform compatibility and responsive design are baked in from the first build.",
+    outputs: ["Interactive modules", "Media & motion", "QA builds"],
+    Icon: Code2,
+  },
+  {
+    num: "04",
+    title: "Application",
+    subtitle: "Implement",
+    description:
+      "We deploy across your preferred LMS, train administrators, and integrate with existing systems. Our team supports rollout from pilot group to full organizational adoption.",
+    outputs: ["LMS deployment", "Admin training", "Pilot rollout"],
+    Icon: Rocket,
+  },
+  {
+    num: "05",
+    title: "Evaluation",
+    subtitle: "Review",
+    description:
+      "Detailed analytics and feedback collection measure learning effectiveness and surface opportunities to improve. Ongoing evaluation keeps programs current with industry standards and audit-ready.",
+    outputs: ["Analytics", "Learner feedback", "Iteration roadmap"],
+    Icon: LineChart,
+  },
+];
+
+const AUTO_ADVANCE_MS = 5200;
+
+const SectionLabel = ({ num, label }: { num: string; label: string }) => (
+  <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
+      <span className="h-px w-8 bg-emerald-400/60" />
+      <span className="text-[10px] md:text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-emerald-400/80 uppercase">
+        {num}
+      </span>
+    </div>
+    <span className="text-[10px] md:text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase">
+      {label}
+    </span>
+  </div>
+);
 
 const DevelopmentProcess = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  const steps = [
-    {
-      title: "Analysis",
-      subtitle: "Exploration",
-      description:
-        "We begin by thoroughly understanding your organization's specific learning needs, compliance requirements, and target audience. Our team conducts comprehensive stakeholder interviews and needs assessments to ensure every module addresses real-world challenges.",
-      icon: "🔍",
-      color: "from-green-400 to-green-600",
-    },
-    {
-      title: "Design",
-      subtitle: "Planning",
-      description:
-        "Our instructional designers create detailed learning pathways, interactive scenarios, and assessment strategies. We develop storyboards and prototypes that align with your brand identity while ensuring optimal user experience and engagement.",
-      icon: "📐",
-      color: "from-orange-400 to-orange-600",
-    },
-    {
-      title: "Develop",
-      subtitle: "Create",
-      description:
-        "Using cutting-edge e-learning technologies, we build interactive modules with multimedia elements, simulations, and gamification features. Our development team ensures cross-platform compatibility and responsive design for seamless learning experiences.",
-      icon: "⚙️",
-      color: "from-red-400 to-red-600",
-    },
-    {
-      title: "Application",
-      subtitle: "Implement",
-      description:
-        "We deploy your custom learning solution across your preferred LMS platform, provide comprehensive training for administrators, and ensure smooth integration with existing systems. Our team supports the rollout process from start to finish.",
-      icon: "🚀",
-      color: "from-blue-400 to-blue-600",
-    },
-    {
-      title: "Evaluation",
-      subtitle: "Review",
-      description:
-        "Through detailed analytics and feedback collection, we measure learning effectiveness and identify areas for improvement. Our ongoing evaluation ensures your training programs continue to deliver measurable results and stay current with industry standards.",
-      icon: "📋",
-      color: "from-yellow-400 to-yellow-600",
-    },
-  ];
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
       },
-      {
-        threshold: 0.3,
-        rootMargin: "0px 0px -100px 0px",
-      }
+      { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (isVisible) {
-      const timer = setInterval(() => {
-        setActiveStep((prev) => (prev + 1) % steps.length);
-      }, 4500);
+    if (!visible || paused) return;
+    const id = setInterval(() => {
+      setActive((prev) => (prev + 1) % steps.length);
+    }, AUTO_ADVANCE_MS);
+    return () => clearInterval(id);
+  }, [visible, paused]);
 
-      return () => clearInterval(timer);
-    }
-  }, [isVisible, steps.length]);
-
-  const lightbulbBrightness = ((activeStep + 1) / steps.length) * 100;
+  const go = (i: number) => setActive((i + steps.length) % steps.length);
+  const step = steps[active];
+  const progress = ((active + 1) / steps.length) * 100;
 
   return (
-    <motion.div
+    <section
       ref={sectionRef}
-      className="px-6 md:px-12 lg:px-24 py-20"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      viewport={{ once: true, amount: 0.1 }}
+      id="process"
+      className="relative py-16 md:py-20 px-5 md:px-10 lg:px-16 overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 hero-grid-bg opacity-25 pointer-events-none"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 85% 60% at 50% 50%, black 15%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 85% 60% at 50% 50%, black 15%, transparent 80%)",
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h3 className="text-green-400 text-sm md:text-base font-semibold tracking-wider mb-4">
-            OUR METHODOLOGY
-          </h3>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 font-roboto">
-            Development Process
-          </h2>
-          <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-            Our proven 5-stage methodology ensures every e-learning solution is
-            tailored, effective, and delivers measurable results for your
-            organization.
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 max-w-5xl"
+        >
+          <div className="max-w-2xl">
+            <SectionLabel num="004" label="Methodology" />
+            <h2 className="mt-6 font-[family-name:var(--font-roboto)] text-[clamp(2rem,5.5vw,4.25rem)] leading-[1.02] tracking-[-0.02em] text-white font-medium">
+              <span>A process,</span>
+              <br />
+              <span className="italic font-[family-name:var(--font-instrument-serif)] font-normal text-emerald-300">
+                five-fold.
+              </span>
+            </h2>
+          </div>
+          <p className="md:max-w-sm font-[family-name:var(--font-roboto)] text-[14px] md:text-[15px] leading-[1.7] text-white/55">
+            Our proven methodology ensures every e-learning solution is
+            tailored, effective, and delivers measurable results — from first
+            interview to final analytics review.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Lightbulb Visualization */}
-          <div className="flex justify-center">
-            <div className="relative">
-              {/* Lightbulb Image Container */}
-              <div className="relative w-100 h-100 flex items-center justify-center">
-                {/* Lightbulb Image */}
-                <div className="relative">
-                  <Image
-                    src={LightbulbImage}
-                    alt="Lightbulb"
-                    className="w-100 h-100 object-contain transition-all duration-1000"
-                  />
+        {/* Timeline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-12 md:mt-16"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          {/* Desktop horizontal timeline */}
+          <div className="hidden md:block relative">
+            {/* Connecting track */}
+            <div className="absolute left-0 right-0 top-6 h-px bg-white/10" />
+            <div
+              className="absolute left-0 top-6 h-px bg-gradient-to-r from-emerald-400/80 to-emerald-400/40 transition-[width] duration-700 ease-out"
+              style={{
+                width: `calc(${(active / (steps.length - 1)) * 100}% )`,
+              }}
+            />
 
-                  {/* Glowing overlay effect */}
-                  <div
-                    className="absolute inset-0 transition-all duration-1000 pointer-events-none"
-                    style={{
-                      background: `radial-gradient(circle, rgba(251, 191, 36, ${
-                        lightbulbBrightness / 150
-                      }) 30%, rgba(255, 255, 255, ${
-                        lightbulbBrightness / 300
-                      }) 50%, transparent 70%)`,
-                      filter: `blur(${lightbulbBrightness / 20}px)`,
-                      mixBlendMode: "screen",
-                    }}
-                  />
+            <div className="relative grid grid-cols-5">
+              {steps.map((s, i) => {
+                const isActive = i === active;
+                const isPast = i < active;
+                const Icon = s.Icon;
+                return (
+                  <button
+                    key={s.num}
+                    onClick={() => go(i)}
+                    className="group flex flex-col items-center text-center pt-0 cursor-pointer focus:outline-none"
+                    aria-label={`Step ${s.num} — ${s.title}`}
+                  >
+                    <span
+                      className={`relative flex items-center justify-center size-12 rounded-full border transition-all duration-500 ${
+                        isActive
+                          ? "border-emerald-400 bg-emerald-400/15 text-emerald-300 scale-110"
+                          : isPast
+                          ? "border-emerald-400/40 bg-emerald-400/5 text-emerald-300/70"
+                          : "border-white/15 bg-[#0a0a0a] text-white/40 group-hover:border-white/35 group-hover:text-white/70"
+                      }`}
+                    >
+                      {isActive && (
+                        <>
+                          <span className="absolute inset-0 rounded-full border border-emerald-400/40 wave-animate" />
+                          <span
+                            className="absolute inset-[-6px] rounded-full border border-emerald-400/20 wave-animate"
+                            style={{ animationDelay: "0.3s" }}
+                          />
+                        </>
+                      )}
+                      <Icon className="size-[18px]" strokeWidth={1.75} />
+                    </span>
+                    <span
+                      className={`mt-5 text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] uppercase transition-colors duration-300 ${
+                        isActive
+                          ? "text-emerald-400/80"
+                          : isPast
+                          ? "text-white/50"
+                          : "text-white/30 group-hover:text-white/55"
+                      }`}
+                    >
+                      {s.num}
+                    </span>
+                    <span
+                      className={`mt-1 text-[13px] font-[family-name:var(--font-roboto-mono)] tracking-[0.18em] uppercase font-medium transition-colors duration-300 ${
+                        isActive
+                          ? "text-white"
+                          : isPast
+                          ? "text-white/70"
+                          : "text-white/45 group-hover:text-white/75"
+                      }`}
+                    >
+                      {s.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mobile vertical timeline */}
+          <div className="md:hidden relative">
+            <div className="absolute left-6 top-6 bottom-6 w-px bg-white/10" />
+            <div
+              className="absolute left-6 top-6 w-px bg-gradient-to-b from-emerald-400/80 to-emerald-400/40 transition-[height] duration-700"
+              style={{ height: `${(active / (steps.length - 1)) * 100}%` }}
+            />
+            <div className="space-y-3">
+              {steps.map((s, i) => {
+                const isActive = i === active;
+                const isPast = i < active;
+                const Icon = s.Icon;
+                return (
+                  <button
+                    key={s.num}
+                    onClick={() => go(i)}
+                    className="relative w-full flex items-center gap-4 text-left cursor-pointer focus:outline-none"
+                  >
+                    <span
+                      className={`relative flex items-center justify-center size-12 rounded-full border transition-all duration-500 shrink-0 ${
+                        isActive
+                          ? "border-emerald-400 bg-emerald-400/15 text-emerald-300"
+                          : isPast
+                          ? "border-emerald-400/40 bg-emerald-400/5 text-emerald-300/70"
+                          : "border-white/15 bg-[#0a0a0a] text-white/40"
+                      }`}
+                    >
+                      {isActive && (
+                        <span className="absolute inset-0 rounded-full border border-emerald-400/40 wave-animate" />
+                      )}
+                      <Icon className="size-[18px]" strokeWidth={1.75} />
+                    </span>
+                    <div className="flex flex-col">
+                      <span
+                        className={`text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] uppercase ${
+                          isActive ? "text-emerald-400/80" : "text-white/40"
+                        }`}
+                      >
+                        {s.num}
+                      </span>
+                      <span
+                        className={`text-[13px] font-[family-name:var(--font-roboto-mono)] tracking-[0.18em] uppercase font-medium ${
+                          isActive ? "text-white" : "text-white/55"
+                        }`}
+                      >
+                        {s.title}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Active step card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-10 md:mt-12 relative rounded-md border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          {/* Top accent line — animates with auto-advance */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-white/5">
+            <div
+              key={`${active}-${paused ? "paused" : "live"}`}
+              className="h-full bg-gradient-to-r from-emerald-400/80 to-emerald-400/30"
+              style={{
+                width: paused ? `${progress}%` : "100%",
+                animation: paused
+                  ? "none"
+                  : `stepAdvance ${AUTO_ADVANCE_MS}ms linear forwards`,
+              }}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-12 gap-5 md:gap-8 p-5 md:p-8 lg:p-10">
+            {/* Giant numeral + icon */}
+            <div className="md:col-span-4 lg:col-span-5 flex md:flex-col md:justify-between gap-6">
+              <div className="flex items-center gap-5">
+                <span className="font-[family-name:var(--font-instrument-serif)] italic text-[clamp(4.5rem,11vw,8rem)] leading-[0.85] text-white font-normal">
+                  {step.num}
+                </span>
+                <div className="flex flex-col gap-1 pt-2">
+                  <span className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-emerald-400/80 uppercase">
+                    Step · {active + 1} / {steps.length}
+                  </span>
+                  <span className="text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.22em] text-white/55 uppercase">
+                    {step.subtitle}
+                  </span>
                 </div>
               </div>
 
-              {/* Progress indicators around lightbulb */}
-              <div className="absolute inset-0">
-                {steps.map((step, index) => {
-                  const angle = index * 72 - 90; // 360/5 = 72 degrees apart, -90 to start at top
-                  const radius = 150;
-                  const x = Math.cos((angle * Math.PI) / 180) * radius;
-                  const y = Math.sin((angle * Math.PI) / 180) * radius;
+              <div className="hidden md:flex items-center gap-3 self-start">
+                <div className="relative flex items-center justify-center size-14 rounded-full border border-emerald-400/30 bg-emerald-400/5 text-emerald-300">
+                  <span className="absolute inset-[-4px] rounded-full border border-emerald-400/15 wave-animate" />
+                  <step.Icon className="size-5" strokeWidth={1.75} />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.28em] text-white/40 uppercase">
+                    Phase
+                  </span>
+                  <span className="text-[12px] font-[family-name:var(--font-roboto-mono)] tracking-[0.18em] text-white/75 uppercase">
+                    {step.title} / {step.subtitle}
+                  </span>
+                </div>
+              </div>
+            </div>
 
-                  return (
-                    <div
-                      key={index}
-                      className="absolute w-16 h-16 flex items-center justify-center rounded-full border-2 transition-all duration-500 cursor-pointer"
-                      style={{
-                        left: `calc(50% + ${x}px - 2rem)`,
-                        top: `calc(50% + ${y}px - 2rem)`,
-                        backgroundColor:
-                          index <= activeStep ? "#10b981" : "#374151",
-                        borderColor:
-                          index <= activeStep ? "#10b981" : "#6b7280",
-                        transform:
-                          index === activeStep ? "scale(1.2)" : "scale(1)",
-                        boxShadow:
-                          index === activeStep
-                            ? "0 0 20px rgba(16, 185, 129, 0.5)"
-                            : "none",
-                      }}
-                      onClick={() => setActiveStep(index)}
+            {/* Body */}
+            <div className="md:col-span-8 lg:col-span-7">
+              <h3 className="font-[family-name:var(--font-roboto)] text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.1] tracking-[-0.01em] text-white font-medium">
+                {step.title}{" "}
+                <span className="italic font-[family-name:var(--font-instrument-serif)] font-normal text-emerald-300">
+                  &mdash; {step.subtitle.toLowerCase()}.
+                </span>
+              </h3>
+              <p className="mt-4 font-[family-name:var(--font-roboto)] text-[15px] leading-[1.7] text-white/60">
+                {step.description}
+              </p>
+
+              {/* Outputs */}
+              <div className="mt-5">
+                <div className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/40 uppercase mb-3">
+                  Deliverables
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {step.outputs.map((o) => (
+                    <span
+                      key={o}
+                      className="text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.14em] uppercase border border-white/10 bg-white/[0.03] text-white/70 px-2.5 py-1 rounded-full"
                     >
-                      <span className="text-2xl">{step.icon}</span>
-                    </div>
-                  );
-                })}
+                      {o}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Step Details */}
-          <div className="space-y-8">
-            <div className="bg-gray-800/50 rounded-2xl p-8 border border-gray-700">
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  className={`w-12 h-12 rounded-full bg-gradient-to-r ${steps[activeStep].color} flex items-center justify-center text-2xl`}
-                >
-                  {steps[activeStep].icon}
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">
-                    {steps[activeStep].title}
-                  </h3>
-                  <p className="text-green-400 font-medium">
-                    {steps[activeStep].subtitle}
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-gray-300 text-lg leading-relaxed">
-                {steps[activeStep].description}
-              </p>
+          {/* Footer control bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 px-4 md:px-8 lg:px-10 py-3 border-t border-white/5 bg-white/[0.015]">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <button
+                onClick={() => go(active - 1)}
+                className="flex items-center justify-center size-11 md:size-9 rounded-full border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-white/30 transition-colors duration-200 cursor-pointer"
+                aria-label="Previous step"
+              >
+                <ArrowLeft className="size-3.5" strokeWidth={2} />
+              </button>
+              <button
+                onClick={() => go(active + 1)}
+                className="flex items-center justify-center size-11 md:size-9 rounded-full border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-white/30 transition-colors duration-200 cursor-pointer"
+                aria-label="Next step"
+              >
+                <ArrowRight className="size-3.5" strokeWidth={2} />
+              </button>
+              <button
+                onClick={() => setPaused((p) => !p)}
+                className="ml-1 flex items-center gap-2 px-3 h-11 md:h-9 rounded-full border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-white/30 transition-colors duration-200 cursor-pointer"
+                aria-label={paused ? "Resume auto-advance" : "Pause auto-advance"}
+              >
+                {paused ? (
+                  <Play className="size-3" strokeWidth={2} fill="currentColor" />
+                ) : (
+                  <Pause className="size-3" strokeWidth={2} fill="currentColor" />
+                )}
+                <span className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.22em] uppercase">
+                  {paused ? "Resume" : "Auto"}
+                </span>
+              </button>
             </div>
 
-            {/* Progress Bar */}
-            <div className="bg-gray-700 rounded-full h-3 overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-green-400 to-green-600 h-full transition-all duration-1000 ease-out"
-                style={{ width: `${((activeStep + 1) / steps.length) * 100}%` }}
-              />
-            </div>
-
-            <div className="flex justify-between text-sm text-gray-400">
-              <span>
-                Step {activeStep + 1} of {steps.length}
-              </span>
-              <span>
-                {Math.round(((activeStep + 1) / steps.length) * 100)}% Complete
-              </span>
-            </div>
-
-            {/* Navigation dots */}
-            <div className="flex justify-center gap-3 pt-4">
-              {steps.map((_, index) => (
+            {/* Dot navigation */}
+            <div className="flex items-center gap-2">
+              {steps.map((_, i) => (
                 <button
-                  key={index}
-                  onClick={() => setActiveStep(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === activeStep
-                      ? "bg-green-400 scale-125"
-                      : index < activeStep
-                      ? "bg-green-600"
-                      : "bg-gray-600"
+                  key={i}
+                  onClick={() => go(i)}
+                  className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === active
+                      ? "w-8 bg-emerald-400"
+                      : i < active
+                      ? "w-1.5 bg-emerald-400/40"
+                      : "w-1.5 bg-white/15 hover:bg-white/35"
                   }`}
+                  aria-label={`Go to step ${i + 1}`}
                 />
               ))}
             </div>
+
+            <div className="hidden sm:block text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/35 uppercase">
+              {Math.round(progress)}% Through
+            </div>
           </div>
+        </motion.div>
+
+        {/* Bottom meta */}
+        <div className="mt-6 flex items-center justify-between text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/35 uppercase">
+          <span>— Iterative by design</span>
+          <span className="hidden sm:inline">
+            Analysis · Design · Develop · Apply · Evaluate
+          </span>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes spin {
+        @keyframes stepAdvance {
           from {
-            transform: rotate(0deg);
+            width: 0%;
           }
           to {
-            transform: rotate(360deg);
+            width: 100%;
           }
         }
       `}</style>
-    </motion.div>
+    </section>
   );
 };
 

@@ -1,308 +1,16 @@
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import GrainImage from "@/app/assets/images/grain.jpg";
-// import Image from "next/image";
-
-// interface FormData {
-//   name: string;
-//   email: string;
-//   subject: string;
-//   message: string;
-// }
-
-// interface FormStatus {
-//   type: "idle" | "loading" | "success" | "error";
-//   message: string;
-// }
-
-// export const ContactSection = () => {
-//   const [formData, setFormData] = useState<FormData>({
-//     name: "",
-//     email: "",
-//     subject: "",
-//     message: "",
-//   });
-
-//   const [status, setStatus] = useState<FormStatus>({
-//     type: "idle",
-//     message: "",
-//   });
-
-//   // Auto-hide status message after 5 seconds
-//   useEffect(() => {
-//     if (status.type === "success" || status.type === "error") {
-//       const timer = setTimeout(() => {
-//         setStatus({ type: "idle", message: "" });
-//       }, 6000);
-
-//       return () => clearTimeout(timer);
-//     }
-//   }, [status.type]);
-
-//   const handleChange = (
-//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-//   ) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-
-//     setStatus({ type: "loading", message: "Sending your message..." });
-
-//     try {
-//       const response = await fetch("/route.php", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(formData),
-//       });
-
-//       if (response.ok) {
-//         setStatus({
-//           type: "success",
-//           message:
-//             "Message sent successfully! We'll get back to you within 24 hours.",
-//         });
-//         setFormData({ name: "", email: "", subject: "", message: "" });
-//       } else {
-//         throw new Error("Failed to send message");
-//       }
-//     } catch (error) {
-//       setStatus({
-//         type: "error",
-//         message:
-//           "Failed to send message. Please try again or email us directly.",
-//       });
-//     }
-//   };
-
-//   return (
-//     <section className="py-10 lg:py-14 px-6 md:px-10 lg:px-15" id="contact">
-//       <div className="max-w-7xl mx-auto">
-//         <div className="text-gray-900 py-12 px-8 md:py-16 md:px-12 relative overflow-hidden rounded-xl">
-//           {/* Header */}
-//           <div className="text-center mb-10 md:mb-14">
-//             <h3 className="text-green-400 text-sm md:text-base font-semibold tracking-wider mb-2 uppercase">
-//               Get In Touch
-//             </h3>
-//             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 font-roboto">
-//               Contact Us
-//             </h1>
-//             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-//               Ready to bring your next project to life? We'd love to hear from
-//               you and discuss how we can help turn your vision into reality.
-//             </p>
-//           </div>
-
-//           {/* Contact Form */}
-//           <div className="max-w-2xl mx-auto">
-//             <div className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 shadow-xl">
-//               <div className="text-center mb-8">
-//                 <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-//                   <svg
-//                     className="w-8 h-8 text-white"
-//                     fill="none"
-//                     stroke="currentColor"
-//                     viewBox="0 0 24 24"
-//                   >
-//                     <path
-//                       strokeLinecap="round"
-//                       strokeLinejoin="round"
-//                       strokeWidth={2}
-//                       d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-//                     />
-//                   </svg>
-//                 </div>
-//                 <h3 className="text-xl font-bold text-green-400/70 mb-2">
-//                   Send Us a Message
-//                 </h3>
-//               </div>
-
-//               {/* Status Message */}
-//               {status.type !== "idle" && (
-//                 <div
-//                   className={`mb-6 p-4 rounded-lg text-center ${
-//                     status.type === "success"
-//                       ? "bg-green-500/20 border border-green-500/30 text-green-300"
-//                       : status.type === "error"
-//                       ? "bg-red-500/20 border border-red-500/30 text-red-300"
-//                       : "bg-blue-500/20 border border-blue-500/30 text-blue-300"
-//                   }`}
-//                 >
-//                   {status.message}
-//                 </div>
-//               )}
-
-//               {/* Form */}
-//               <form onSubmit={handleSubmit} className="space-y-6">
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                   <div>
-//                     <label
-//                       htmlFor="name"
-//                       className="block text-white/90 text-sm font-medium mb-2"
-//                     >
-//                       Your Name *
-//                     </label>
-//                     <input
-//                       type="text"
-//                       id="name"
-//                       name="name"
-//                       value={formData.name}
-//                       onChange={handleChange}
-//                       required
-//                       className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-//                       placeholder="John Doe"
-//                     />
-//                   </div>
-
-//                   <div>
-//                     <label
-//                       htmlFor="email"
-//                       className="block text-white/90 text-sm font-medium mb-2"
-//                     >
-//                       Email Address *
-//                     </label>
-//                     <input
-//                       type="email"
-//                       id="email"
-//                       name="email"
-//                       value={formData.email}
-//                       onChange={handleChange}
-//                       required
-//                       className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-//                       placeholder="john@example.com"
-//                     />
-//                   </div>
-//                 </div>
-
-//                 <div>
-//                   <label
-//                     htmlFor="subject"
-//                     className="block text-white/90 text-sm font-medium mb-2"
-//                   >
-//                     Subject *
-//                   </label>
-//                   <input
-//                     type="text"
-//                     id="subject"
-//                     name="subject"
-//                     value={formData.subject}
-//                     onChange={handleChange}
-//                     required
-//                     className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-//                     placeholder="Project Inquiry"
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label
-//                     htmlFor="message"
-//                     className="block text-white/90 text-sm font-medium mb-2"
-//                   >
-//                     Message *
-//                   </label>
-//                   <textarea
-//                     id="message"
-//                     name="message"
-//                     value={formData.message}
-//                     onChange={handleChange}
-//                     required
-//                     rows={6}
-//                     className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300 resize-vertical"
-//                     placeholder="Tell us about your project and how we can help..."
-//                   />
-//                 </div>
-
-//                 {/* Submit Button */}
-//                 <div className="text-center pt-4">
-//                   <button
-//                     type="submit"
-//                     disabled={status.type === "loading"}
-//                     className={`inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform ${
-//                       status.type === "loading"
-//                         ? "bg-white/50 text-gray-500 cursor-not-allowed"
-//                         : "bg-white text-[#111111] hover:bg-white/90 hover:scale-105"
-//                     }`}
-//                   >
-//                     {status.type === "loading" ? (
-//                       <>
-//                         <svg
-//                           className="w-5 h-5 animate-spin"
-//                           fill="none"
-//                           viewBox="0 0 24 24"
-//                         >
-//                           <circle
-//                             className="opacity-25"
-//                             cx="12"
-//                             cy="12"
-//                             r="10"
-//                             stroke="currentColor"
-//                             strokeWidth="4"
-//                           ></circle>
-//                           <path
-//                             className="opacity-75"
-//                             fill="currentColor"
-//                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-//                           ></path>
-//                         </svg>
-//                         Sending...
-//                       </>
-//                     ) : (
-//                       <>
-//                         <svg
-//                           className="w-5 h-5"
-//                           fill="none"
-//                           stroke="currentColor"
-//                           viewBox="0 0 24 24"
-//                         >
-//                           <path
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             strokeWidth={2}
-//                             d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-//                           />
-//                         </svg>
-//                         Send Message
-//                       </>
-//                     )}
-//                   </button>
-//                 </div>
-
-//                 {/* Alternative Contact */}
-//                 <div className="text-center pt-6 border-t border-white/10">
-//                   <p className="text-white/70 text-sm mb-2">
-//                     Or email us directly at:
-//                   </p>
-//                   <a
-//                     href="mailto:learning@triquetratech.co.za"
-//                     className="text-green-400 hover:text-green-300 transition-colors font-medium"
-//                   >
-//                     learning@triquetratech.co.za
-//                   </a>
-//                   <p className="text-white/50 text-xs mt-2">
-//                     ⚡ Quick response within 24 hours
-//                   </p>
-//                 </div>
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default ContactSection;
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  ArrowUpRight,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  MapPin,
+} from "lucide-react";
 
 interface FormData {
   name: string;
@@ -315,6 +23,63 @@ interface FormStatus {
   type: "idle" | "loading" | "success" | "error";
   message: string;
 }
+
+const SectionLabel = ({ num, label }: { num: string; label: string }) => (
+  <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
+      <span className="h-px w-8 bg-emerald-400/60" />
+      <span className="text-[10px] md:text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-emerald-400/80 uppercase">
+        {num}
+      </span>
+    </div>
+    <span className="text-[10px] md:text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase">
+      {label}
+    </span>
+  </div>
+);
+
+const MetaRow = ({
+  Icon,
+  label,
+  value,
+  href,
+}: {
+  Icon: typeof Mail;
+  label: string;
+  value: string;
+  href?: string;
+}) => {
+  const content = (
+    <div className="group flex items-start gap-4 py-4 border-b border-white/[0.06] last:border-b-0">
+      <div className="shrink-0 mt-0.5 size-8 rounded-sm border border-white/10 bg-white/[0.02] flex items-center justify-center group-hover:border-emerald-400/40 group-hover:bg-emerald-400/[0.04] transition-colors duration-200">
+        <Icon className="size-3.5 text-white/60 group-hover:text-emerald-400 transition-colors duration-200" strokeWidth={1.75} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[9px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/40 uppercase mb-1">
+          {label}
+        </div>
+        <div className="text-[14px] md:text-[15px] font-[family-name:var(--font-roboto)] text-white/85 group-hover:text-white break-words transition-colors duration-200">
+          {value}
+        </div>
+      </div>
+      {href && (
+        <ArrowUpRight
+          className="shrink-0 size-4 text-white/30 group-hover:text-emerald-400 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          strokeWidth={1.75}
+        />
+      )}
+    </div>
+  );
+
+  if (href) {
+    return (
+      <a href={href} className="block">
+        {content}
+      </a>
+    );
+  }
+  return content;
+};
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -329,7 +94,6 @@ export const ContactSection = () => {
     message: "",
   });
 
-  // Auto-hide status message after 5 seconds
   useEffect(() => {
     if (status.type === "success" || status.type === "error") {
       const timer = setTimeout(() => {
@@ -353,10 +117,9 @@ export const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setStatus({ type: "loading", message: "Sending your message..." });
+    setStatus({ type: "loading", message: "Transmitting message..." });
 
     try {
-      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
       const response = await fetch("https://formspree.io/f/xjkakzvk", {
         method: "POST",
         headers: {
@@ -367,9 +130,7 @@ export const ContactSection = () => {
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          // Add a custom field to identify the source
           _subject: `Website Contact from ${formData.name}: ${formData.subject}`,
-          // Optional: Custom reply-to
           _replyto: formData.email,
         }),
       });
@@ -378,7 +139,7 @@ export const ContactSection = () => {
         setStatus({
           type: "success",
           message:
-            "Message sent successfully! We'll get back to you within 24 hours.",
+            "Message received. We'll respond within 24 hours.",
         });
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
@@ -388,77 +149,179 @@ export const ContactSection = () => {
       setStatus({
         type: "error",
         message:
-          "Failed to send message. Please try again or email us directly.",
+          "Transmission failed. Please try again or email us directly.",
       });
     }
   };
 
-  return (
-    <section className="py-10 lg:py-14 px-6 md:px-10 lg:px-15" id="contact">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-gray-900 py-12 px-8 md:py-16 md:px-12 relative overflow-hidden rounded-xl">
-          {/* Header */}
-          <div className="text-center mb-10 md:mb-14">
-            <h3 className="text-green-400 text-sm md:text-base font-semibold tracking-wider mb-2 uppercase">
-              Get In Touch
-            </h3>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 font-roboto">
-              Contact Us
-            </h1>
-            <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-              Ready to bring your next project to life? We'd love to hear from
-              you and discuss how we can help turn your vision into reality.
-            </p>
-          </div>
+  const isLoading = status.type === "loading";
 
-          {/* Contact Form */}
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-10 shadow-xl">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-green-400/70 mb-2">
-                  Send Us a Message
-                </h3>
+  return (
+    <section
+      id="contact"
+      className="relative text-white py-16 md:py-20 px-5 md:px-10 lg:px-16 overflow-hidden"
+    >
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 hero-grid-bg opacity-25 pointer-events-none"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 50%, black 10%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 50%, black 10%, transparent 75%)",
+        }}
+      />
+
+      {/* Ambient emerald glow */}
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[900px] rounded-full bg-emerald-500/[0.04] blur-3xl" />
+
+      <div className="relative max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="max-w-3xl"
+        >
+          <SectionLabel num="005" label="Contact" />
+          <h2 className="mt-6 font-[family-name:var(--font-roboto)] text-[clamp(2rem,5.5vw,4.25rem)] leading-[1.02] tracking-[-0.02em] text-white font-medium">
+            <span>Let&apos;s build something </span>
+            <span className="italic font-[family-name:var(--font-instrument-serif)] font-normal text-emerald-300">
+              meaningful
+            </span>
+            <span className="text-white/85">.</span>
+          </h2>
+          <p className="mt-7 font-[family-name:var(--font-roboto)] text-[15px] md:text-[17px] leading-[1.65] text-white/55 max-w-xl">
+            Whether you need a complete learning program, a single compliance
+            course, or strategic advice on an existing initiative — tell us
+            what you&apos;re working on and we&apos;ll respond within one
+            business day.
+          </p>
+        </motion.div>
+
+        {/* Divider */}
+        <div className="mt-10 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+        {/* Grid: Meta aside + Form */}
+        <div className="mt-10 md:mt-14 grid lg:grid-cols-12 gap-8 lg:gap-10">
+          {/* Left — Contact meta */}
+          <motion.aside
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="lg:col-span-5"
+          >
+            <div className="relative border border-white/[0.08] bg-white/[0.015] rounded-sm p-6 md:p-8">
+              {/* Corner bracket decoration */}
+              <div className="absolute -top-px -left-px size-4 border-t border-l border-emerald-400/40" />
+              <div className="absolute -top-px -right-px size-4 border-t border-r border-emerald-400/40" />
+              <div className="absolute -bottom-px -left-px size-4 border-b border-l border-emerald-400/40" />
+              <div className="absolute -bottom-px -right-px size-4 border-b border-r border-emerald-400/40" />
+
+              <div className="flex items-center gap-2">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+                </span>
+                <span className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.28em] text-emerald-400/80 uppercase">
+                  Accepting Projects
+                </span>
               </div>
 
-              {/* Status Message */}
+              <h3 className="mt-5 font-[family-name:var(--font-roboto)] text-[clamp(1.25rem,2.4vw,1.75rem)] leading-[1.2] tracking-[-0.01em] text-white font-medium">
+                Direct channels,
+                <br />
+                <span className="italic font-[family-name:var(--font-instrument-serif)] font-normal text-emerald-300">
+                  no queues.
+                </span>
+              </h3>
+
+              <p className="mt-4 text-[14px] leading-[1.65] font-[family-name:var(--font-roboto)] text-white/50">
+                Prefer asynchronous? Reach us through any of these channels —
+                we&apos;re attentive across all of them.
+              </p>
+
+              <div className="mt-5">
+                <MetaRow
+                  Icon={Mail}
+                  label="Email"
+                  value="learning@triquetratech.co.za"
+                  href="mailto:learning@triquetratech.co.za"
+                />
+                <MetaRow
+                  Icon={Clock}
+                  label="Response time"
+                  value="Within 24 hours, Mon–Fri"
+                />
+                <MetaRow
+                  Icon={MapPin}
+                  label="Based in"
+                  value="South Africa · Remote worldwide"
+                />
+              </div>
+            </div>
+          </motion.aside>
+
+          {/* Right — Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="lg:col-span-7"
+          >
+            <div className="relative border border-white/[0.08] bg-white/[0.015] rounded-sm p-6 md:p-8">
+              <div className="flex items-center justify-between gap-4 mb-6">
+                <SectionLabel num="F·01" label="Transmission" />
+                <span className="text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/30 uppercase hidden sm:inline">
+                  Encrypted · Secure
+                </span>
+              </div>
+
+              {/* Status message */}
               {status.type !== "idle" && (
-                <div
-                  className={`mb-6 p-4 rounded-lg text-center ${
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mb-5 flex items-start gap-3 p-4 rounded-sm border ${
                     status.type === "success"
-                      ? "bg-green-500/20 border border-green-500/30 text-green-300"
+                      ? "bg-emerald-500/[0.06] border-emerald-400/30"
                       : status.type === "error"
-                      ? "bg-red-500/20 border border-red-500/30 text-red-300"
-                      : "bg-blue-500/20 border border-blue-500/30 text-blue-300"
+                      ? "bg-red-500/[0.06] border-red-400/30"
+                      : "bg-white/[0.03] border-white/15"
                   }`}
                 >
-                  {status.message}
-                </div>
+                  {status.type === "success" ? (
+                    <CheckCircle2 className="shrink-0 size-4 text-emerald-400 mt-0.5" strokeWidth={2} />
+                  ) : status.type === "error" ? (
+                    <AlertCircle className="shrink-0 size-4 text-red-400 mt-0.5" strokeWidth={2} />
+                  ) : (
+                    <Loader2 className="shrink-0 size-4 text-white/60 mt-0.5 animate-spin" strokeWidth={2} />
+                  )}
+                  <span
+                    className={`text-[13px] md:text-[14px] font-[family-name:var(--font-roboto)] leading-[1.55] ${
+                      status.type === "success"
+                        ? "text-emerald-200"
+                        : status.type === "error"
+                        ? "text-red-200"
+                        : "text-white/75"
+                    }`}
+                  >
+                    {status.message}
+                  </span>
+                </motion.div>
               )}
 
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="space-y-2">
                     <label
                       htmlFor="name"
-                      className="block text-white/90 text-sm font-medium mb-2"
+                      className="block text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase"
                     >
-                      Your Name *
+                      Name <span className="text-emerald-400/80">·</span> Required
                     </label>
                     <input
                       type="text"
@@ -467,17 +330,18 @@ export const ContactSection = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-                      placeholder="John Doe"
+                      disabled={isLoading}
+                      className="w-full px-4 py-3 md:py-3.5 rounded-sm bg-white/[0.02] border border-white/10 text-white placeholder:text-white/25 font-[family-name:var(--font-roboto)] text-[15px] focus:outline-none focus:border-emerald-400/60 focus:bg-emerald-400/[0.03] transition-colors duration-200 disabled:opacity-50"
+                      placeholder="Jane Doe"
                     />
                   </div>
 
-                  <div>
+                  <div className="space-y-2">
                     <label
                       htmlFor="email"
-                      className="block text-white/90 text-sm font-medium mb-2"
+                      className="block text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase"
                     >
-                      Email Address *
+                      Email <span className="text-emerald-400/80">·</span> Required
                     </label>
                     <input
                       type="email"
@@ -486,18 +350,19 @@ export const ContactSection = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-                      placeholder="john@example.com"
+                      disabled={isLoading}
+                      className="w-full px-4 py-3 md:py-3.5 rounded-sm bg-white/[0.02] border border-white/10 text-white placeholder:text-white/25 font-[family-name:var(--font-roboto)] text-[15px] focus:outline-none focus:border-emerald-400/60 focus:bg-emerald-400/[0.03] transition-colors duration-200 disabled:opacity-50"
+                      placeholder="jane@company.com"
                     />
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <label
                     htmlFor="subject"
-                    className="block text-white/90 text-sm font-medium mb-2"
+                    className="block text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase"
                   >
-                    Subject *
+                    Subject <span className="text-emerald-400/80">·</span> Required
                   </label>
                   <input
                     type="text"
@@ -506,17 +371,18 @@ export const ContactSection = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300"
-                    placeholder="Project Inquiry"
+                    disabled={isLoading}
+                    className="w-full px-4 py-3 md:py-3.5 rounded-sm bg-white/[0.02] border border-white/10 text-white placeholder:text-white/25 font-[family-name:var(--font-roboto)] text-[15px] focus:outline-none focus:border-emerald-400/60 focus:bg-emerald-400/[0.03] transition-colors duration-200 disabled:opacity-50"
+                    placeholder="Compliance program inquiry"
                   />
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <label
                     htmlFor="message"
-                    className="block text-white/90 text-sm font-medium mb-2"
+                    className="block text-[10px] font-[family-name:var(--font-roboto-mono)] tracking-[0.3em] text-white/50 uppercase"
                   >
-                    Message *
+                    Message <span className="text-emerald-400/80">·</span> Required
                   </label>
                   <textarea
                     id="message"
@@ -524,85 +390,46 @@ export const ContactSection = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    disabled={isLoading}
                     rows={6}
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-green-400/50 focus:border-transparent transition-all duration-300 resize-vertical"
-                    placeholder="Tell us about your project and how we can help..."
+                    className="w-full px-4 py-3 md:py-3.5 rounded-sm bg-white/[0.02] border border-white/10 text-white placeholder:text-white/25 font-[family-name:var(--font-roboto)] text-[15px] leading-[1.6] focus:outline-none focus:border-emerald-400/60 focus:bg-emerald-400/[0.03] transition-colors duration-200 resize-y min-h-[140px] disabled:opacity-50"
+                    placeholder="Tell us about your audience, timeline, and what success looks like…"
                   />
                 </div>
 
-                {/* Submit Button */}
-                <div className="text-center pt-4">
+                {/* Submit row */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+                  <p className="text-[11px] font-[family-name:var(--font-roboto-mono)] tracking-[0.18em] text-white/35 uppercase">
+                    All fields kept confidential.
+                  </p>
                   <button
                     type="submit"
-                    disabled={status.type === "loading"}
-                    className={`inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform ${
-                      status.type === "loading"
-                        ? "bg-white/50 text-gray-500 cursor-not-allowed"
-                        : "bg-white text-[#111111] hover:bg-white/90 hover:scale-105"
-                    }`}
+                    disabled={isLoading}
+                    className="group inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-sm bg-emerald-400 text-black hover:bg-emerald-300 disabled:bg-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-colors duration-200 min-h-[48px] cursor-pointer"
                   >
-                    {status.type === "loading" ? (
+                    {isLoading ? (
                       <>
-                        <svg
-                          className="w-5 h-5 animate-spin"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                        Sending...
+                        <Loader2 className="size-4 animate-spin" strokeWidth={2.25} />
+                        <span className="text-[12px] font-[family-name:var(--font-roboto-mono)] font-medium tracking-[0.24em] uppercase">
+                          Sending
+                        </span>
                       </>
                     ) : (
                       <>
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                          />
-                        </svg>
-                        Send Message
+                        <span className="text-[12px] font-[family-name:var(--font-roboto-mono)] font-medium tracking-[0.24em] uppercase">
+                          Send Message
+                        </span>
+                        <ArrowUpRight
+                          className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          strokeWidth={2.25}
+                        />
                       </>
                     )}
                   </button>
                 </div>
-
-                {/* Alternative Contact */}
-                <div className="text-center pt-6 border-t border-white/10">
-                  <p className="text-white/70 text-sm mb-2">
-                    Or email us directly at:
-                  </p>
-                  <a
-                    href="mailto:learning@triquetratech.co.za"
-                    className="text-green-400 hover:text-green-300 transition-colors font-medium"
-                  >
-                    learning@triquetratech.co.za
-                  </a>
-                  <p className="text-white/50 text-xs mt-2">
-                    ⚡ Quick response within 24 hours
-                  </p>
-                </div>
               </form>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
