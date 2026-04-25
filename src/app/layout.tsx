@@ -6,7 +6,7 @@ import "./globals.css";
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-roboto",
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
 });
 
 const robotoMono = Roboto_Mono({
@@ -31,7 +31,7 @@ export default function RootLayout({
         className={twMerge(
           roboto.variable,
           robotoMono.variable,
-          "bg-[#111111] text-white antialiased font-sans"
+          "bg-[#0a0a0a] text-white antialiased font-sans"
         )}
       >
         {children}
